@@ -42,7 +42,7 @@ const features = [
 ]
 
 const stats = [
-  { value: '10+', label: 'Years Experience' },
+  { value: '20+', label: 'Years Experience' },
   { value: '500+', label: 'Students Taught' },
   { value: '99%', label: 'Success Rate' },
   { value: '5/5', label: 'Student Rating' },
@@ -90,7 +90,7 @@ function About() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-[#2d3436]">10+ Years</p>
+                  <p className="text-2xl font-bold text-[#2d3436]">20+ Years</p>
                   <p className="text-[#636e72] text-sm">Teaching Excellence</p>
                 </div>
               </div>

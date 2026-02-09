@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 const examPrograms = [
   {
     title: 'SAT Preparation',
+    slug: 'sat-preparation',
     description: 'Comprehensive SAT Math preparation with practice tests, strategies, and personalized coaching for top scores.',
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,6 +16,7 @@ const examPrograms = [
   },
   {
     title: 'IB MYP',
+    slug: 'ib-myp',
     description: 'Middle Years Programme mathematics support, building strong foundations for advanced mathematical thinking.',
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,6 +26,7 @@ const examPrograms = [
   },
   {
     title: 'IB DP',
+    slug: 'ib-dp',
     description: 'Diploma Programme Math AA & AI at both SL and HL levels. Expert guidance through challenging IB curriculum.',
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,6 +36,7 @@ const examPrograms = [
   },
   {
     title: 'A-Level',
+    slug: 'a-level',
     description: 'Cambridge A-Level Mathematics and Further Mathematics preparation for university entrance success.',
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,28 +49,39 @@ const examPrograms = [
 const subjects = [
   {
     title: 'Algebra',
+    slug: 'algebra',
     description: 'From basic equations to advanced abstract algebra concepts',
     icon: 'x²',
   },
   {
     title: 'Geometry',
+    slug: 'geometry',
     description: 'Euclidean geometry, coordinate geometry, and spatial reasoning',
     icon: '△',
   },
   {
     title: 'Statistics',
+    slug: 'statistics',
     description: 'Data analysis, probability distributions, and hypothesis testing',
     icon: 'σ',
   },
   {
     title: 'Probability',
+    slug: 'probability',
     description: 'Combinatorics, probability theory, and stochastic processes',
     icon: 'P',
   },
   {
     title: 'Calculus',
+    slug: 'calculus',
     description: 'Differential and integral calculus, multivariable calculus',
     icon: '∫',
+  },
+  {
+    title: 'Math IA',
+    slug: 'math-ia',
+    description: 'IB Math Internal Assessment guidance, research and writing support',
+    icon: 'IA',
   },
 ]
 
@@ -74,29 +90,38 @@ function ServiceCard({ service, index }) {
   const isInView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 card-hover"
-    >
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#e8f4f8] to-transparent rounded-2xl opacity-50" />
+    <Link to={`/services/${service.slug}`}>
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 card-hover h-full"
+      >
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#e8f4f8] to-transparent rounded-2xl opacity-50" />
 
-      <div className="relative">
-        <div className="w-14 h-14 bg-[#e8f4f8] rounded-xl flex items-center justify-center text-[#1a5f7a] mb-4 group-hover:bg-[#1a5f7a] group-hover:text-white transition-colors duration-300">
-          {service.icon}
+        <div className="relative">
+          <div className="w-14 h-14 bg-[#e8f4f8] rounded-xl flex items-center justify-center text-[#1a5f7a] mb-4 group-hover:bg-[#1a5f7a] group-hover:text-white transition-colors duration-300">
+            {service.icon}
+          </div>
+
+          <h3 className="text-xl font-bold text-[#2d3436] mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            {service.title}
+          </h3>
+
+          <p className="text-[#636e72] text-sm leading-relaxed mb-4">
+            {service.description}
+          </p>
+
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-[#1a5f7a] group-hover:gap-2 transition-all">
+            Learn More
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
         </div>
-
-        <h3 className="text-xl font-bold text-[#2d3436] mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-          {service.title}
-        </h3>
-
-        <p className="text-[#636e72] text-sm leading-relaxed">
-          {service.description}
-        </p>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   )
 }
 
@@ -105,25 +130,34 @@ function SubjectCard({ subject, index }) {
   const isInView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="group relative bg-gradient-to-br from-[#1a5f7a] to-[#0d4a5f] rounded-xl p-5 text-white overflow-hidden card-hover"
-    >
-      <div className="absolute top-2 right-2 text-4xl font-bold text-white/10 select-none">
-        {subject.icon}
-      </div>
+    <Link to={`/services/${subject.slug}`}>
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.4, delay: index * 0.08 }}
+        className="group relative bg-gradient-to-br from-[#1a5f7a] to-[#0d4a5f] rounded-xl p-5 text-white overflow-hidden card-hover h-full"
+      >
+        <div className="absolute top-2 right-2 text-4xl font-bold text-white/10 select-none">
+          {subject.icon}
+        </div>
 
-      <h4 className="text-lg font-bold mb-2" style={{ fontFamily: 'Georgia, serif' }}>
-        {subject.title}
-      </h4>
+        <h4 className="text-lg font-bold mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+          {subject.title}
+        </h4>
 
-      <p className="text-white/80 text-sm leading-relaxed">
-        {subject.description}
-      </p>
-    </motion.div>
+        <p className="text-white/80 text-sm leading-relaxed mb-3">
+          {subject.description}
+        </p>
+
+        <span className="inline-flex items-center gap-1 text-sm font-medium text-[#c4a962] group-hover:gap-2 transition-all">
+          Learn More
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </motion.div>
+    </Link>
   )
 }
 
@@ -186,7 +220,7 @@ function Services() {
             Subject Expertise
           </motion.h3>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {subjects.map((subject, index) => (
               <SubjectCard key={subject.title} subject={subject} index={index} />
             ))}

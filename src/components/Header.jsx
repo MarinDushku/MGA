@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'services', label: 'Services' },
   { id: 'about', label: 'About' },
   { id: 'testimonials', label: 'Testimonials' },
+  { id: 'booking', label: 'Book' },
   { id: 'contact', label: 'Contact' },
 ]
 
 function Header({ activeSection }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHomePage = location.pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +28,22 @@ function Header({ activeSection }) {
   }, [])
 
   const scrollToSection = (sectionId) => {
+    setIsMobileMenuOpen(false)
+
+    if (!isHomePage) {
+      navigate('/')
+      setTimeout(() => {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const headerOffset = 80
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+        }
+      }, 100)
+      return
+    }
+
     const element = document.getElementById(sectionId)
     if (element) {
       const headerOffset = 80
@@ -34,13 +55,12 @@ function Header({ activeSection }) {
         behavior: 'smooth'
       })
     }
-    setIsMobileMenuOpen(false)
   }
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        isScrolled || !isHomePage
           ? 'bg-white/95 backdrop-blur-md shadow-lg'
           : 'bg-transparent'
       }`}
@@ -48,33 +68,37 @@ function Header({ activeSection }) {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault()
-              scrollToSection('home')
-            }}
-            className="flex items-center gap-3"
+          <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-              isScrolled ? 'bg-[#1a5f7a]' : 'bg-white/20 backdrop-blur-sm'
-            }`}>
-              <svg
-                viewBox="0 0 24 24"
-                className={`w-6 h-6 ${isScrolled ? 'text-white' : 'text-white'}`}
-                fill="currentColor"
-              >
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <span className={`text-xl font-bold ${
-              isScrolled ? 'text-[#1a5f7a]' : 'text-white'
-            }`} style={{ fontFamily: 'Georgia, serif' }}>
-              Math Geek Albania
-            </span>
-          </motion.a>
+            <Link
+              to="/"
+              className="flex items-center gap-3"
+              onClick={() => {
+                if (isHomePage) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+              }}
+            >
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                isScrolled || !isHomePage ? 'bg-[#1a5f7a]' : 'bg-white/20 backdrop-blur-sm'
+              }`}>
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6 text-white"
+                  fill="currentColor"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <span className={`text-xl font-bold ${
+                isScrolled || !isHomePage ? 'text-[#1a5f7a]' : 'text-white'
+              }`} style={{ fontFamily: 'Georgia, serif' }}>
+                Math Geek Albania
+              </span>
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-1">
@@ -83,22 +107,20 @@ function Header({ activeSection }) {
                 <button
                   onClick={() => scrollToSection(item.id)}
                   className={`relative px-4 py-2 rounded-lg font-medium transition-colors duration-300 ${
-                    activeSection === item.id
+                    isHomePage && activeSection === item.id
                       ? isScrolled
                         ? 'text-[#1a5f7a]'
                         : 'text-white'
-                      : isScrolled
+                      : isScrolled || !isHomePage
                         ? 'text-gray-600 hover:text-[#1a5f7a]'
                         : 'text-white/80 hover:text-white'
                   }`}
                 >
                   {item.label}
-                  {activeSection === item.id && (
+                  {isHomePage && activeSection === item.id && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full ${
-                        isScrolled ? 'bg-[#c4a962]' : 'bg-[#c4a962]'
-                      }`}
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full bg-[#c4a962]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -111,7 +133,7 @@ function Header({ activeSection }) {
           <motion.a
             href="tel:+355692888941"
             className={`hidden md:flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
-              isScrolled
+              isScrolled || !isHomePage
                 ? 'bg-[#1a5f7a] text-white hover:bg-[#0d4a5f]'
                 : 'bg-white text-[#1a5f7a] hover:bg-white/90'
             }`}
@@ -128,7 +150,7 @@ function Header({ activeSection }) {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`md:hidden p-3 rounded-lg transition-colors ${
-              isScrolled ? 'text-[#1a5f7a]' : 'text-white'
+              isScrolled || !isHomePage ? 'text-[#1a5f7a]' : 'text-white'
             }`}
             aria-label="Toggle menu"
           >
@@ -163,7 +185,7 @@ function Header({ activeSection }) {
                   <button
                     onClick={() => scrollToSection(item.id)}
                     className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-                      activeSection === item.id
+                      isHomePage && activeSection === item.id
                         ? 'bg-[#e8f4f8] text-[#1a5f7a]'
                         : 'text-gray-600 hover:bg-gray-50'
                     }`}

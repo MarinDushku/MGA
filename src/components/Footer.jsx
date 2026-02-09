@@ -1,23 +1,45 @@
 import { motion } from 'framer-motion'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const quickLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
   { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Book a Session', href: '#booking' },
   { label: 'Contact', href: '#contact' },
 ]
 
 const programs = [
-  { label: 'SAT Preparation', href: '#services' },
-  { label: 'IB MYP', href: '#services' },
-  { label: 'IB Diploma', href: '#services' },
-  { label: 'A-Level', href: '#services' },
+  { label: 'SAT Preparation', to: '/services/sat-preparation' },
+  { label: 'IB MYP', to: '/services/ib-myp' },
+  { label: 'IB Diploma', to: '/services/ib-dp' },
+  { label: 'A-Level', to: '/services/a-level' },
 ]
 
 function Footer() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHomePage = location.pathname === '/'
+
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId.replace('#', ''))
+    const id = sectionId.replace('#', '')
+
+    if (!isHomePage) {
+      navigate('/')
+      setTimeout(() => {
+        const element = document.getElementById(id)
+        if (element) {
+          const headerOffset = 80
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+        }
+      }, 100)
+      return
+    }
+
+    const element = document.getElementById(id)
     if (element) {
       const headerOffset = 80
       const elementPosition = element.getBoundingClientRect().top
@@ -103,6 +125,17 @@ function Footer() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </a>
+                <a
+                  href="https://youtube.com/@math_geek_al"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 bg-white/10 hover:bg-[#FF0000] rounded-xl flex items-center justify-center transition-all hover:scale-105"
+                  aria-label="YouTube"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </a>
               </div>
             </div>
 
@@ -133,12 +166,12 @@ function Footer() {
               <ul className="space-y-3">
                 {programs.map((program) => (
                   <li key={program.label}>
-                    <button
-                      onClick={() => scrollToSection(program.href)}
+                    <Link
+                      to={program.to}
                       className="text-white/70 hover:text-[#c4a962] transition-colors text-base hover:translate-x-1 inline-block transform"
                     >
                       {program.label}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>

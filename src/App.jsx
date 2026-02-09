@@ -1,14 +1,12 @@
-import { useState, useEffect, useRef, Suspense, lazy } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import './index.css'
 
 import Header from './components/Header'
-import Hero from './components/Hero'
-import Services from './components/Services'
-import About from './components/About'
-import Testimonials from './components/Testimonials'
-import Contact from './components/Contact'
 import Footer from './components/Footer'
+import HomePage from './pages/HomePage'
+import ServicePage from './pages/ServicePage'
 
 const LoadingScreen = lazy(() => import('./components/LoadingScreen'))
 
@@ -26,7 +24,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'services', 'about', 'testimonials', 'contact']
+      const sections = ['home', 'services', 'about', 'testimonials', 'reviews', 'booking', 'contact']
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -48,7 +46,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <BrowserRouter>
       <AnimatePresence mode="wait">
         {isLoading && (
           <motion.div
@@ -75,17 +73,14 @@ function App() {
           transition={{ duration: 0.5 }}
         >
           <Header activeSection={activeSection} />
-          <main>
-            <Hero />
-            <Services />
-            <About />
-            <Testimonials />
-            <Contact />
-          </main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services/:slug" element={<ServicePage />} />
+          </Routes>
           <Footer />
         </motion.div>
       )}
-    </>
+    </BrowserRouter>
   )
 }
 
