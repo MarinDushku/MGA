@@ -21,18 +21,22 @@ const testimonials = [
 ]
 
 const universities = [
-  'Harvard University',
-  'MIT',
-  'Stanford University',
-  'Columbia University',
-  'University of Pennsylvania',
-  'New York University',
-  'Boston University',
-  'University of Michigan',
-  'UCLA',
-  'University of Toronto',
-  'King\'s College London',
-  'Bocconi University',
+  {
+    name: 'Vanderbilt University',
+    logo: '/logos/vanderbilt.svg',
+  },
+  {
+    name: 'Rice University',
+    logo: '/logos/rice.svg',
+  },
+  {
+    name: 'Karlsruhe Institute of Technology',
+    logo: '/logos/kit.svg',
+  },
+  {
+    name: 'Adelphi University',
+    logo: '/logos/adelphi.svg',
+  },
 ]
 
 function TestimonialCard({ testimonial, index }) {
@@ -128,7 +132,7 @@ function Testimonials() {
           </div>
         </motion.div>
 
-        {/* Universities Section */}
+        {/* Universities Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -145,24 +149,33 @@ function Testimonials() {
             </h3>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {universities.map((uni, index) => (
-              <motion.div
-                key={uni}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: 0.7 + index * 0.05 }}
-                className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-[#1a5f7a]/20 transition-all"
-              >
-                <div className="w-10 h-10 bg-[#e8f4f8] rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-5 h-5 text-[#1a5f7a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                  </svg>
+          <div className="overflow-hidden relative">
+            {/* Fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#f8f9fa] to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#f8f9fa] to-transparent z-10" />
+
+            <div className="flex animate-scroll">
+              {/* Duplicate items for seamless loop */}
+              {[...universities, ...universities, ...universities].map((uni, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 mx-4"
+                >
+                  <div className="bg-white rounded-2xl px-6 py-5 shadow-sm border border-gray-100 flex items-center justify-center min-w-[260px] h-[90px]">
+                    <img
+                      src={uni.logo}
+                      alt={uni.name}
+                      className="h-full w-auto object-contain max-h-[60px]"
+                    />
+                  </div>
                 </div>
-                <p className="text-sm font-semibold text-[#2d3436]">{uni}</p>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          <p className="text-center text-[#636e72] mt-6 text-lg font-medium italic">
+            ...and more
+          </p>
         </motion.div>
       </div>
     </section>
