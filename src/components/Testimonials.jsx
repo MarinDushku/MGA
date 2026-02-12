@@ -21,22 +21,14 @@ const testimonials = [
 ]
 
 const universities = [
-  {
-    name: 'Vanderbilt University',
-    logo: '/logos/vanderbilt.svg',
-  },
-  {
-    name: 'Rice University',
-    logo: '/logos/rice.svg',
-  },
-  {
-    name: 'Karlsruhe Institute of Technology',
-    logo: '/logos/kit.svg',
-  },
-  {
-    name: 'Adelphi University',
-    logo: '/logos/adelphi.svg',
-  },
+  { name: 'Vanderbilt University', logo: '/logos/vanderbilt.svg' },
+  { name: 'Rice University', logo: '/logos/rice.svg' },
+  { name: 'Karlsruhe Institute of Technology', logo: '/logos/kit.svg' },
+  { name: 'Adelphi University', logo: '/logos/adelphi.svg' },
+  { name: 'Yale University', logo: '/logos/yale.svg' },
+  { name: 'Princeton University', logo: '/logos/princeton.svg' },
+  { name: 'Bocconi University', logo: '/logos/bocconi.svg' },
+  { name: 'Boston University', logo: '/logos/boston.svg' },
 ]
 
 function TestimonialCard({ testimonial, index }) {
@@ -154,14 +146,15 @@ function Testimonials() {
             <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#f8f9fa] to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#f8f9fa] to-transparent z-10" />
 
-            <div className="flex animate-scroll">
-              {/* Duplicate items for seamless loop */}
-              {[...universities, ...universities, ...universities].map((uni, index) => (
+            <div className="animate-scroll flex w-max">
+              {/* Two identical sets for seamless infinite loop */}
+              {[...universities, ...universities].map((uni, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 mx-4"
+                  className="flex-shrink-0 px-4"
+                  style={{ width: '280px' }}
                 >
-                  <div className="bg-white rounded-2xl px-6 py-5 shadow-sm border border-gray-100 flex items-center justify-center min-w-[260px] h-[90px]">
+                  <div className="bg-white rounded-2xl px-6 py-5 shadow-sm border border-gray-100 flex items-center justify-center h-[90px]">
                     <img
                       src={uni.logo}
                       alt={uni.name}

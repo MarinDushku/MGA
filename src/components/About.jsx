@@ -43,7 +43,7 @@ const features = [
 
 const stats = [
   { value: '20+', label: 'Years Experience' },
-  { value: '500+', label: 'Students Taught' },
+  { value: '30,000+', label: 'Students Taught' },
   { value: '99%', label: 'Success Rate' },
   { value: '5/5', label: 'Student Rating' },
 ]

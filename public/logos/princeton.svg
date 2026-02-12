@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80">
+  <rect width="260" height="80" fill="none"/>
+  <text x="130" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#E77500">PRINCETON</text>
+  <text x="130" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#E77500" letter-spacing="4">UNIVERSITY</text>
+  <line x1="40" y1="42" x2="220" y2="42" stroke="#E77500" stroke-width="1"/>
+</svg>

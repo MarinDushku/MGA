@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <rect width="200" height="80" fill="none"/>
+  <text x="100" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#00356B">YALE</text>
+  <text x="100" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#00356B" letter-spacing="4">UNIVERSITY</text>
+  <line x1="35" y1="42" x2="165" y2="42" stroke="#00356B" stroke-width="1"/>
+</svg>
