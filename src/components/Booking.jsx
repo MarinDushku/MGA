@@ -3,7 +3,7 @@ import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 // Replace this with the actual Calendly URL once provided
-const CALENDLY_URL = 'https://calendly.com/dushkumarini/30min'
+const CALENDLY_URL = 'https://calendly.com/k96mezini/new-meeting'
 
 function Booking() {
   const sectionRef = useRef(null)
