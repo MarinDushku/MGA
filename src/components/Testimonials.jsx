@@ -5,17 +5,26 @@ import { useRef } from 'react'
 const testimonials = [
   {
     id: 1,
-    quote: 'Enkela has tutored my daughter for the past two years. She is an amazing tutor, professional, patient, and punctual. With her help, my daughter has been able to understand and keep up with her math concepts and studies. Highly recommend Enkela.',
+    name: 'Nicholas Bianchini',
+    quote: 'Enkela has been tutoring both of our daughters for the past three years, and she has become a part of our family and not just their math tutor. The success she has helped both of them attain over the course of the past few years is outstanding! We are so grateful to have Enkela in our girls\'s lives and feel that the impact that she has made on their futures is priceless. Her professionalism and willingness to work with her clients and adapt to their schedules and needs, show her passion for every child she tutors, long-term success.',
     rating: 5,
   },
   {
     id: 2,
-    quote: 'Enkela has tutored both of my daughters for the past four years. I can\'t say enough about how valuable she has been. She has a very organized and understandable approach to teaching math. She has been instrumental in filling in the gaps, so to speak. As a result, a solid knowledge of concepts and problem solving skills were developed. These skills made them very successful in their college level math coursework as well.',
+    name: 'Genevive Flores',
+    quote: 'Enkela has been the greatest, most amazing math tutor I have ever had the privilege to work with. She has been such a light at the end of the tunnel for myself as a student, and my family. Always providing the upmost support and education to me. I\'m so grateful to have met her and be assisted with her services, I can\'t thank, and recommend her enough!',
     rating: 5,
   },
   {
     id: 3,
-    quote: 'Enkela, Thank you so much for your EXCELLENT WORK. Our teen received outstanding grades all 4 years you tutored - from HS Algebra to Calculus. You are VERY PROFESSIONAL in every way - work ethic, punctuality, reliability, student-teacher rapport, etc. Your tutoring is the BEST INVESTMENT in education. It has been a pleasure to know you!',
+    name: 'Hadara Chasky',
+    quote: 'My sister and I have been tutored by Enkela for the past 4 years, and I couldn\'t be more grateful for what an outstanding teacher she is! She is so engaging and makes learning such a fun experience, and challenges me, I am able to test my limits within every class, and I always leave with so much new knowledge about mathematics! I cannot recommend her enough, she is an absolute pleasure to work with!',
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: 'Elajdo Bacelli',
+    quote: 'Highly Recommended Math Teacher. Thanks to her, math has become much easier and more enjoyable.',
     rating: 5,
   },
 ]
@@ -55,18 +64,23 @@ function TestimonialCard({ testimonial, index }) {
         "{testimonial.quote}"
       </p>
 
-      {/* Rating */}
-      <div className="flex items-center gap-1">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className={`w-5 h-5 ${i < testimonial.rating ? 'text-[#c4a962]' : 'text-gray-200'}`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
+      {/* Rating + Name */}
+      <div className="flex items-center justify-between mt-auto">
+        <div className="flex items-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <svg
+              key={i}
+              className={`w-5 h-5 ${i < testimonial.rating ? 'text-[#c4a962]' : 'text-gray-200'}`}
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+        {testimonial.name && (
+          <p className="text-sm font-semibold text-[#1a5f7a]">— {testimonial.name}</p>
+        )}
       </div>
     </motion.div>
   )
@@ -99,7 +113,7 @@ function Testimonials() {
         </motion.div>
 
         {/* Testimonials grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
           ))}
