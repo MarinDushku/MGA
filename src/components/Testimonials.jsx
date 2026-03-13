@@ -104,11 +104,11 @@ function Testimonials() {
             Success Stories
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#2d3436] mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-            What Parents{' '}
+            What Parents & Students{' '}
             <span className="text-[#1a5f7a]">Say About Us</span>
           </h2>
           <p className="text-[#636e72] text-lg">
-            Hear from parents whose children have transformed their mathematical abilities and achieved academic success.
+            Hear from parents and students who have transformed their mathematical abilities and achieved academic success.
           </p>
         </motion.div>
 
