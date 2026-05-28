@@ -69,6 +69,9 @@ function Testimonials() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
   const [current, setCurrent] = useState(0)
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  )
   const n = testimonials.length
 
   useEffect(() => {
@@ -78,21 +81,31 @@ function Testimonials() {
     return () => clearInterval(timer)
   }, [n])
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   const goTo = (i) => setCurrent(i)
   const goPrev = () => setCurrent(c => (c - 1 + n) % n)
   const goNext = () => setCurrent(c => (c + 1) % n)
 
-  // All cards same width (50%); side cards slide past the container edge and get clipped
-  // Right card at left:65% → visible from 65-100% = 35% = 70% of card
-  // Left  card at left:-15% → visible from 0-35%  = 35% = 70% of card
   const getAnimate = (idx) => {
     const diff = ((idx - current) + n) % n
-    if (diff === 0)     return { left: '25%',   opacity: 1,   zIndex: 10 }
-    if (diff === 1)     return { left: '65%',   opacity: 0.85, zIndex: 5 }
-    if (diff === n - 1) return { left: '-15%',  opacity: 0.85, zIndex: 5 }
+    if (isMobile) {
+      if (diff === 0) return { left: '5%', width: '90%', opacity: 1, zIndex: 10 }
+      return diff <= Math.floor(n / 2)
+        ? { left: '110%', width: '90%', opacity: 0, zIndex: 0 }
+        : { left: '-110%', width: '90%', opacity: 0, zIndex: 0 }
+    }
+    // Desktop: 3-card layout — side cards clip at container edge showing ~70%
+    if (diff === 0)     return { left: '25%',  width: '50%', opacity: 1,    zIndex: 10 }
+    if (diff === 1)     return { left: '65%',  width: '50%', opacity: 0.85, zIndex: 5 }
+    if (diff === n - 1) return { left: '-15%', width: '50%', opacity: 0.85, zIndex: 5 }
     return diff <= Math.floor(n / 2)
-      ? { left: '120%', opacity: 0, zIndex: 0 }
-      : { left: '-70%', opacity: 0, zIndex: 0 }
+      ? { left: '120%', width: '50%', opacity: 0, zIndex: 0 }
+      : { left: '-70%', width: '50%', opacity: 0, zIndex: 0 }
   }
 
   return (
@@ -120,14 +133,14 @@ function Testimonials() {
         {/* 3-card carousel */}
         <div className="relative max-w-4xl mx-auto">
           {/* Card stage */}
-          <div className="relative overflow-hidden" style={{ height: '460px' }}>
+          <div className="relative overflow-hidden" style={{ height: isMobile ? '520px' : '460px' }}>
             {testimonials.map((t, idx) => (
               <motion.div
                 key={t.id}
                 initial={false}
                 animate={getAnimate(idx)}
                 transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                className="absolute top-0 h-full w-1/2"
+                className="absolute top-0 h-full"
               >
                 <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 h-full flex flex-col overflow-hidden text-center">
                   <div className="w-10 h-10 bg-[#e8f4f8] rounded-lg flex items-center justify-center mb-4 mx-auto flex-shrink-0">
